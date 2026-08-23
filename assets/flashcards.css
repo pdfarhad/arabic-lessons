@@ -7,7 +7,7 @@
   padding: 2px 10px;
   border-radius: 999px;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--panel);
   color: var(--muted);
   cursor: pointer;
 }
@@ -38,7 +38,7 @@
   padding: 8px 18px;
   border-radius: 10px;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--panel);
   cursor: pointer;
 }
 .fc-btn:hover { border-color: var(--accent); }

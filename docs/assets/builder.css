@@ -18,7 +18,7 @@
   border-radius: 10px;
   margin-bottom: var(--s-2);
 }
-.build-answer { background: #fff; border: 1.5px dashed var(--blue-edge); }
+.build-answer { background: var(--panel); border: 1.5px dashed var(--blue-edge); }
 .build-pool   { background: var(--code-bg); }
 .build-hint   { font-size: .62em; color: var(--faint); line-height: 1.6; }
 
@@ -34,7 +34,7 @@
   cursor: pointer;
 }
 .chip:hover { border-color: var(--accent); }
-.chip.picked { background: #fff; border-color: var(--border); }
+.chip.picked { background: var(--panel); border-color: var(--border); }
 
 .build-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
 .build-btn {
@@ -42,7 +42,7 @@
   padding: 5px 14px;
   border-radius: 9px;
   border: 1px solid var(--border);
-  background: #fff;
+  background: var(--panel);
   cursor: pointer;
 }
 .build-btn:hover { border-color: var(--accent); }

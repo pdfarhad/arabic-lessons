@@ -31,5 +31,12 @@
   client-side and ship as-is. Footers are written deploy-agnostically.
 - **Numbering**: lessons `0001…`; reading chapters and flashcard decks are separate
   categories with their own numbering (never in the lesson sequence).
+- **Theme**: user-requested (2026-08-23, "just add fuji theme") — a single optional
+  night theme named `fuji` (indigo/snow/dawn-pink), reader-operated toggle, light by
+  default. Built from the skill's theme component: `assets/theme.css` + `assets/theme.js`
+  + a synchronous head guard on every page. Wiring is owned by `scripts/wire-theme.py`
+  (idempotent; `--check` mode; OLD_GUARDS migration list) — never wire by hand. Bright
+  plates use `var(--panel)` (defined in arabic.css), never hardcoded #fff, so the theme
+  can re-point them. New pages must be run through wire-theme.py.
 - Tanwin: the book prints full tanwin in drills (مُدَرِّسٌ) but drops it in some pausal
   dialogue lines. Keep whatever the page prints; teach the pausal-form point once.

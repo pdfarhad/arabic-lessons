@@ -7,6 +7,10 @@
      cleanly; the rest are system faces so pages work offline too. */
   --arabic: "Noto Naskh Arabic", "Geeza Pro", "Al Bayan", "Traditional Arabic",
             "Amiri", serif;
+
+  /* Bright plate behind chips, drill lists and buttons. A variable (not a
+     hardcoded #fff) so the fuji theme can re-point it — see assets/theme.css. */
+  --panel: #ffffff;
 }
 
 /* Any run of Arabic text. Vocalised naskh needs extra size + leading to keep
@@ -98,7 +102,7 @@
 }
 .frame ul {
   list-style: none; margin: 0; padding: var(--s-1) var(--s-2);
-  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+  border: 1px solid var(--border); border-radius: 8px; background: var(--panel);
 }
 .frame ul li { padding: 2px 0; }
 

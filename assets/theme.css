@@ -1,0 +1,138 @@
+/* theme.css — the "fuji" night theme for this workspace (reader-operated,
+ * adapted from the learn skill's components/theme.css).
+ *
+ * Mount Fuji at night: indigo sky for the ground, snow for the ink, dawn-pink
+ * (aka-Fuji) for the accent. Three rules keep it safe:
+ *
+ * 1. Opt-in only — keyed on an explicit `data-theme="fuji"` attribute that only
+ *    the button press (or its stored choice) sets. No OS colour-scheme query.
+ *    With nothing stored, every page renders byte-for-byte as before.
+ * 2. The entire palette sits inside `@media screen`, so print is always light.
+ * 3. Variables first: style.css/arabic.css draw almost everything from custom
+ *    properties. The override blocks at the bottom fix the places the shipped
+ *    quiz/highlighter stylesheets hardcode light colours.
+ */
+
+@media screen {
+
+  :root[data-theme="fuji"] {
+    color-scheme: dark;
+
+    /* Ground and text: indigo night sky, snow off-white (never pure #fff —
+       it glares over a long read). */
+    --bg: #1b2233;
+    --ink: #e9ecf2;
+    --muted: #a7aec0;
+    --faint: #7c8497;
+
+    /* Dawn pink on the snowcap — the aka-Fuji accent, lifted until it reads
+       clearly on the indigo ground. */
+    --accent: #f0a3b8;
+    --accent-ink: #f6bccb;
+    --green: #74cba4;
+
+    /* Tinted panels: each hue laid over the ground at low weight. */
+    --amber-bg: #322a1c;
+    --amber-edge: #6d5930;
+    --blue-bg: #202a3f;
+    --blue-edge: #40587e;
+    --green-bg: #1d2b26;
+    --green-edge: #3a6251;
+
+    --card: #232b3f;
+    --border: #3a4358;
+    --code-bg: #212a40;
+    --output-bg: #1f2637;
+
+    /* Shell blocks were already dark on the light page; they separate from a
+       dark one by going darker still. */
+    --shell-bg: #111624;
+    --shell-ink: #e8e6df;
+
+    /* Bright plates (chips, drill lists, buttons) become raised indigo. */
+    --panel: #2b3449;
+
+    /* Warm colour for spots the light palette spends a dark brown on. */
+    --gold: #efc85c;
+  }
+
+  /* ---- colours lesson.css hardcodes ---- */
+
+  :root[data-theme="fuji"] .callout.warn .title { color: var(--gold); }
+  :root[data-theme="fuji"] kbd { background: #30323a; }
+  :root[data-theme="fuji"] pre:not(.cmd) .copy-btn { background: #383b44; color: #d7d4cd; }
+  :root[data-theme="fuji"] pre:not(.cmd) .copy-btn:hover { background: #474b56; color: var(--ink); }
+  :root[data-theme="fuji"] pre:not(.cmd)[data-label]::before { background: rgba(255, 255, 255, .04); }
+
+  /* ---- workspace fixes ---- */
+
+  /* A white speaker glyph on the dawn-pink accent has no contrast at night. */
+  :root[data-theme="fuji"] .say[data-speaking] { color: #1b2233; }
+
+  /* ---- colours quiz.css hardcodes (shipped component, light-only) ---- */
+
+  :root[data-theme="fuji"] .quiz { background: var(--card); border-color: var(--border); }
+  :root[data-theme="fuji"] .quiz .choices > li { border-color: var(--border); }
+  :root[data-theme="fuji"] .quiz .quiz-choice:hover { background: #2a3350; }
+  :root[data-theme="fuji"] .quiz .quiz-correct { background: var(--green-bg); border-color: var(--green-edge); }
+  :root[data-theme="fuji"] .quiz .quiz-incorrect { background: #3a2228; border-color: #93555f; }
+  :root[data-theme="fuji"] .quiz .answer { background: var(--green-bg); border-left-color: var(--green-edge); }
+  :root[data-theme="fuji"] .quiz .quiz-ui button { background: var(--panel); border-color: var(--border); color: var(--ink); }
+  :root[data-theme="fuji"] .quiz .quiz-ui button:hover { background: #2a3350; }
+  :root[data-theme="fuji"] .quiz .quiz-unsaved { color: var(--gold); }
+
+  /* ---- colours highlighter.css hardcodes (local study sessions only —
+          stripped from the public build) ---- */
+
+  :root[data-theme="fuji"] .hl-important { background: rgba(253, 230, 138, .26); }
+  :root[data-theme="fuji"] .hl-tag { background: rgba(221, 214, 254, .24); }
+  :root[data-theme="fuji"] .hl-unnecessary { background: rgba(203, 213, 225, .18); }
+  :root[data-theme="fuji"] #hl-popover,
+  :root[data-theme="fuji"] #hl-legend {
+    background: var(--card); border-color: var(--border); color: var(--ink);
+  }
+  :root[data-theme="fuji"] #hl-popover button,
+  :root[data-theme="fuji"] #hl-popover input {
+    background: var(--panel); border-color: var(--border); color: var(--ink);
+  }
+  :root[data-theme="fuji"] #hl-popover button:hover,
+  :root[data-theme="fuji"] .hl-item:hover { background: #2a3350; }
+  :root[data-theme="fuji"] .hl-item { border-top-color: var(--border); }
+  :root[data-theme="fuji"] .hl-item-text { color: var(--muted); }
+
+  /* ---- the toggle button ----
+     Matched to nav.js's .cnav-btn (same disc, border, shadow), parked one gap
+     to its left. Styled OUTSIDE the [data-theme] block: it must exist in every
+     theme, including the default, where it is the only way back. */
+
+  .theme-btn {
+    position: fixed;
+    top: 14px;
+    right: 66px;
+    z-index: 60;
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    border: 1px solid var(--border, #e5e0d2);
+    background: var(--card, #faf7ee);
+    color: var(--accent-ink, #0a4d92);
+    font-size: 17px;
+    line-height: 1;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, .08);
+    transition: border-color .12s ease, transform .08s ease;
+  }
+  .theme-btn:hover { border-color: var(--accent, #0f62b7); }
+  .theme-btn:active { transform: scale(.94); }
+
+  /* nav.js's drawer owns the top-right corner while open. */
+  .cnav-open .theme-btn { opacity: 0; pointer-events: none; }
+}
+
+@media print {
+  .theme-btn { display: none !important; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-btn { transition: none; }
+}
