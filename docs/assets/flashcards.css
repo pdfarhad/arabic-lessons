@@ -1,0 +1,58 @@
+/* flashcards.css — flip-card deck (paired with flashcards.js) */
+
+.fc-controls { margin: var(--s-3) 0; }
+.fc-dirs, .fc-cats { display: flex; flex-wrap: wrap; gap: var(--s-1); margin-bottom: var(--s-2); }
+.fc-chip {
+  font: 500 12px/1.6 var(--mono);
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  background: #fff;
+  color: var(--muted);
+  cursor: pointer;
+}
+.fc-chip.on { background: var(--blue-bg); border-color: var(--blue-edge); color: var(--accent-ink); }
+
+.fc-card {
+  min-height: 11rem;
+  display: flex; align-items: center; justify-content: center;
+  padding: var(--s-4);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: 0 1px 5px rgba(0,0,0,.06);
+  cursor: pointer;
+  text-align: center;
+}
+.fc-face { display: flex; flex-direction: column; align-items: center; gap: var(--s-2); min-width: 0; }
+.fc-card .fc-back  { display: none; }
+.fc-card.flipped .fc-front { display: none; }
+.fc-card.flipped .fc-back  { display: flex; }
+.fc-gloss { font-size: 1.25em; font-weight: 700; }
+.fc-pos  { font: 500 11px/1.5 var(--mono); color: var(--faint); text-transform: uppercase; letter-spacing: .08em; }
+.fc-note { font-size: .85em; color: var(--muted); max-width: 32rem; }
+
+.fc-actions { display: flex; justify-content: center; align-items: center; gap: var(--s-2); margin: var(--s-3) 0 var(--s-1); }
+.fc-btn {
+  font: 600 14px/1.4 var(--mono);
+  padding: 8px 18px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+.fc-btn:hover { border-color: var(--accent); }
+.fc-again { border-color: var(--amber-edge); background: var(--amber-bg); }
+.fc-good  { border-color: var(--green-edge); background: var(--green-bg); color: var(--green); }
+.fc-progress, .fc-done { text-align: center; font: 500 12px/1.6 var(--mono); color: var(--muted); }
+.fc-done { font-size: 1rem; }
+
+#word-table table { width: 100%; border-collapse: collapse; font-size: .9em; }
+#word-table th, #word-table td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+#word-table td.ar { text-align: right; white-space: nowrap; }
+#word-table { display: block; overflow-x: auto; }
+
+@media print {
+  .fc-controls, .fc-card, .fc-actions, .fc-progress { display: none !important; }
+  #word-table { display: table; overflow: visible; }
+}

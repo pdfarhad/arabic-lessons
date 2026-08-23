@@ -1,0 +1,58 @@
+/* builder.css — sentence builder (paired with builder.js) */
+
+.build {
+  margin: var(--s-4) 0;
+  padding: var(--s-3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.build .task { margin: 0 0 var(--s-2); font-weight: 700; }
+
+.build-row {
+  display: flex; flex-wrap: wrap; gap: var(--s-1);
+  align-items: center;
+  direction: rtl;
+  min-height: 3.2rem;
+  padding: var(--s-1) var(--s-2);
+  border-radius: 10px;
+  margin-bottom: var(--s-2);
+}
+.build-answer { background: #fff; border: 1.5px dashed var(--blue-edge); }
+.build-pool   { background: var(--code-bg); }
+.build-hint   { font-size: .62em; color: var(--faint); line-height: 1.6; }
+
+.chip {
+  font-family: var(--arabic);
+  font-size: 1.05em;
+  line-height: 1.9;
+  padding: 1px 12px;
+  border-radius: 9px;
+  border: 1px solid var(--blue-edge);
+  background: var(--blue-bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+.chip:hover { border-color: var(--accent); }
+.chip.picked { background: #fff; border-color: var(--border); }
+
+.build-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); }
+.build-btn {
+  font: 600 13px/1.5 var(--mono);
+  padding: 5px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: #fff;
+  cursor: pointer;
+}
+.build-btn:hover { border-color: var(--accent); }
+.build-status { font: 500 12px/1.5 var(--mono); color: var(--accent-ink); }
+.build-ok {
+  font-family: var(--arabic);
+  direction: rtl; unicode-bidi: isolate;
+  font-size: 1.2em; line-height: 2;
+  color: var(--green);
+}
+
+/* no-JS / print: the .solution paragraph stays visible as a worked example */
+@media print { .build-ui { display: none; } .build .solution { display: block !important; } }

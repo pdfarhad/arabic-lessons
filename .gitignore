@@ -1,0 +1,7 @@
+.DS_Store
+# Textbook page scans: copyrighted book pages — kept local, never pushed to the
+# public repo. The transcriptions and authored pages are what the repo carries.
+library/raw/
+# Personal learning state (highlights, quiz attempts) stays local too.
+highlights/
+quiz-results/

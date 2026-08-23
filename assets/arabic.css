@@ -1,0 +1,109 @@
+/* arabic.css — Arabic-specific layer on top of assets/style.css.
+ * Layout rules follow the baseline stylesheet's conventions (spacing scale,
+ * no page-level sideways scroll, light-only). */
+
+:root {
+  /* Noto Naskh Arabic (webfont, linked per page) renders full vocalisation
+     cleanly; the rest are system faces so pages work offline too. */
+  --arabic: "Noto Naskh Arabic", "Geeza Pro", "Al Bayan", "Traditional Arabic",
+            "Amiri", serif;
+}
+
+/* Any run of Arabic text. Vocalised naskh needs extra size + leading to keep
+   harakat legible — 1em Arabic looks two sizes smaller than 1em Latin. */
+.ar {
+  font-family: var(--arabic);
+  direction: rtl;
+  unicode-bidi: isolate;
+  font-size: 1.35em;
+  line-height: 2.1;
+}
+
+.ar-big { font-size: 1.9em; line-height: 2; }
+
+/* ---------- dialogue lines (reading chapters) ---------- */
+
+.dialogue { list-style: none; margin: var(--s-4) 0; padding: 0; }
+.dialogue > li {
+  margin: 0 0 var(--s-3);
+  padding: var(--s-2) var(--s-3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+}
+.line-top { display: flex; align-items: center; gap: var(--s-2); }
+.line-top .ar { flex: 1; min-width: 0; text-align: right; }
+.speaker {
+  font: 600 12px/1.4 var(--mono);
+  color: var(--accent-ink);
+  letter-spacing: .05em;
+  white-space: nowrap;
+}
+
+/* per-line reveal: native <details> so it works with no JS */
+.line-extra { margin: var(--s-1) 0 0; }
+.line-extra summary {
+  cursor: pointer;
+  font: 500 12px/1.5 var(--mono);
+  color: var(--muted);
+  list-style: none;
+}
+.line-extra summary::-webkit-details-marker { display: none; }
+.line-extra summary::before { content: "▸ "; }
+.line-extra[open] summary::before { content: "▾ "; }
+.line-extra .gloss { margin: var(--s-1) 0 0; color: var(--ink); }
+.line-extra .note { margin: var(--s-1) 0 0; font-size: .85em; color: var(--muted); }
+
+/* ---------- audio buttons ---------- */
+
+.say {
+  flex: none;
+  width: 34px; height: 34px;
+  border-radius: 50%;
+  border: 1px solid var(--blue-edge);
+  background: var(--blue-bg);
+  color: var(--accent-ink);
+  font-size: 14px; line-height: 1;
+  cursor: pointer;
+}
+.say:hover { border-color: var(--accent); }
+.say[data-speaking] { background: var(--accent); color: #fff; }
+.audio-warn {
+  display: none;
+  margin: var(--s-3) 0;
+  padding: var(--s-2) var(--s-3);
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-edge);
+  border-radius: 8px;
+  font-size: .85em;
+}
+.audio-warn.show { display: block; }
+@media print { .say, .audio-warn { display: none !important; } }
+
+/* ---------- frame tables (substitution drills) ---------- */
+
+.frame {
+  display: flex; flex-wrap: wrap; align-items: stretch; gap: var(--s-2);
+  direction: rtl;
+  margin: var(--s-3) 0;
+}
+.frame > * { min-width: 0; }
+.frame .fixed {
+  align-self: center;
+  padding: var(--s-1) var(--s-2);
+  background: var(--blue-bg);
+  border: 1px solid var(--blue-edge);
+  border-radius: 8px;
+  white-space: nowrap;
+}
+.frame ul {
+  list-style: none; margin: 0; padding: var(--s-1) var(--s-2);
+  border: 1px solid var(--border); border-radius: 8px; background: #fff;
+}
+.frame ul li { padding: 2px 0; }
+
+/* two-column compare (masculine/feminine etc.) — scrolls inside itself if
+   a phone is too narrow, never the page */
+.pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
+.pair > * { min-width: 0; }
+@media (max-width: 520px) { .pair { grid-template-columns: 1fr; } }

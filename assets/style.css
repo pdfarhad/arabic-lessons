@@ -1,0 +1,407 @@
+/* lesson.css — the baseline stylesheet every learn workspace starts from.
+ *
+ * Copy this to <workspace>/assets/style.css on the first study session, exactly
+ * like the highlighter/quiz/nav components. Then customise ONLY the palette and
+ * the two font stacks at the top. Everything below the palette is load-bearing
+ * layout that has already been debugged — changing it is how workspaces end up
+ * with clipped labels, sideways-scrolling phones, and colliding headings.
+ *
+ * LIGHT-ONLY BY DESIGN. There is deliberately no `prefers-color-scheme: dark`
+ * block and no `[data-theme]` hook. Do not add one.
+ */
+
+:root {
+  color-scheme: light;
+
+  /* ---- customise these ---- */
+  --bg: #fffdf6;          /* page */
+  --ink: #22242a;         /* body text */
+  --muted: #6d7178;       /* secondary text */
+  --faint: #9aa0a8;       /* tertiary: section numbers, captions */
+  --accent: #0f62b7;      /* links, kickers, active state */
+  --accent-ink: #0a4d92;  /* accent text on light backgrounds */
+  --green: #0a7d54;
+  --amber-bg: #fdf3dd;
+  --amber-edge: #e4c37a;
+  --blue-bg: #eef4fc;
+  --blue-edge: #b9d2ee;
+  --green-bg: #ecf7f1;
+  --green-edge: #a9d8c2;
+  --card: #faf7ee;
+  --border: #e5e0d2;
+  --code-bg: #f5f2e9;
+  --output-bg: #fbfaf4;
+  --shell-bg: #14181f;    /* copyable command blocks */
+  --shell-ink: #e8e6df;
+
+  /* Keep a font with a REAL bold early in the stack. Several nice book faces
+     (Charter, some Iowan builds) ship regular-only on some machines, and the
+     browser then falls through inconsistently — headings render in a different
+     family from body text, which is the classic "the fonts look off" report. */
+  --serif: "Charter", "Iowan Old Style", "Palatino Linotype", Georgia, "Times New Roman", serif;
+  --mono: ui-monospace, "SF Mono", "JetBrains Mono", "Menlo", "Consolas", monospace;
+
+  /* One spacing scale. Use these, not ad-hoc rem values, so rhythm stays even. */
+  --s-1: .4rem;
+  --s-2: .75rem;
+  --s-3: 1.1rem;
+  --s-4: 1.6rem;
+  --s-5: 2.4rem;
+  --s-6: 3.4rem;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-text-size-adjust: 100%;
+  /* Deliberately NOT overflow-x:hidden — that hides layout bugs instead of
+     fixing them. Wide things scroll inside their own box (see `pre` and
+     `table` below), so the page itself never needs to. */
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font: 18px/1.65 var(--serif);
+  font-synthesis: weight style;
+  padding: 3rem 1.25rem 5rem;
+  text-rendering: optimizeLegibility;
+}
+
+/* ~46rem keeps the measure near 70 characters — the readable range. */
+main { max-width: 46rem; margin: 0 auto; }
+
+/* ---------- header ---------- */
+
+.kicker {
+  font: 600 12px/1.5 var(--mono);
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 var(--s-2);
+}
+
+h1 {
+  font-family: var(--serif);
+  font-size: 2.3rem;
+  line-height: 1.18;
+  font-weight: 700;
+  letter-spacing: -.012em;
+  margin: 0 0 var(--s-2);
+  overflow-wrap: break-word;
+}
+
+.lede { font-size: 1.16rem; line-height: 1.58; color: var(--muted); margin: 0 0 var(--s-3); }
+
+.meta {
+  font: 500 13px/1.7 var(--mono);
+  color: var(--faint);
+  margin: 0 0 var(--s-5);
+  overflow-wrap: break-word;
+}
+.meta a { color: var(--faint); }
+
+h2 {
+  font-family: var(--serif);
+  font-size: 1.5rem;
+  line-height: 1.3;
+  font-weight: 700;
+  letter-spacing: -.008em;
+  margin: var(--s-6) 0 var(--s-3);
+  overflow-wrap: break-word;
+}
+
+/* Section numbers: `<h2><span class="no">1.</span>Title</h2>`.
+   Put the separator (a period) in the MARKUP, not in a ::after here — then the
+   numbering still reads correctly if this stylesheet ever fails to load, and
+   the gap below is only cosmetic rather than load-bearing. The margin is in
+   `em` so it tracks the heading size at any zoom level. */
+h2 .no {
+  display: inline-block;
+  margin-right: .5em;
+  color: var(--faint);
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+
+/* NOTE: do not try to special-case a trailing marker with :last-child — that
+   pseudo-class counts ELEMENT children, so a leading span followed only by a
+   text node matches it too, and the gap silently disappears. A single
+   right-hand gap is correct for the leading case and harmless for the
+   trailing one, where the separator is already in the markup. */
+
+h3 { font-family: var(--serif); font-size: 1.14rem; line-height: 1.4; margin: var(--s-4) 0 var(--s-1); }
+
+p, ul, ol { margin: 0 0 var(--s-3); }
+li { margin-bottom: var(--s-1); }
+li > ul, li > ol { margin-top: var(--s-1); }
+
+a { color: var(--accent-ink); text-decoration-thickness: 1px; text-underline-offset: 2px; }
+strong { font-weight: 700; }
+hr { border: 0; border-top: 1px solid var(--border); margin: var(--s-5) 0; }
+
+blockquote {
+  margin: 0 0 var(--s-3);
+  padding: .15rem 0 .15rem var(--s-3);
+  border-left: 3px solid var(--accent);
+  color: var(--muted);
+}
+blockquote > :last-child { margin-bottom: 0; }
+
+/* Citation markers — superscript without disturbing line height. */
+a.cite { font-size: .72em; vertical-align: super; line-height: 0; text-decoration: none; padding: 0 .1em; }
+a.cite:hover { text-decoration: underline; }
+
+kbd {
+  font: 600 .8em var(--mono);
+  background: #fff;
+  border: 1px solid var(--border);
+  border-bottom-width: 2px;
+  border-radius: 4px;
+  padding: .05em .4em;
+  white-space: nowrap;
+}
+
+/* ---------- progress strip ---------- */
+
+.progress { display: flex; gap: 7px; align-items: center; flex-wrap: wrap; margin: 0 0 var(--s-5); }
+.progress span { width: 11px; height: 11px; border-radius: 50%; background: var(--border); flex: 0 0 auto; }
+.progress span.done { background: var(--green); }
+.progress span.here { background: var(--accent); outline: 3px solid var(--blue-bg); }
+.progress em { font: 500 12px var(--mono); color: var(--faint); font-style: normal; margin-left: 6px; }
+
+/* ---------- code ---------- */
+
+code {
+  font: 0.86em var(--mono);
+  background: var(--code-bg);
+  padding: .1em .35em;
+  border-radius: 4px;
+  overflow-wrap: break-word;   /* long URLs must not widen the page on a phone */
+}
+
+pre {
+  position: relative;
+  background: var(--code-bg);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  line-height: 1.55;
+  margin: 0 0 var(--s-3);
+  /* Do NOT put overflow-x here: it would clip the absolutely-positioned label
+     bar below. Scrolling belongs on the <code> child. */
+  overflow: visible;
+}
+pre > code {
+  display: block;
+  background: none;
+  padding: 0;
+  font-size: 14px;
+  overflow-x: auto;
+  overflow-wrap: normal;
+  border-radius: 0;
+}
+
+pre.cmd { background: var(--shell-bg); border-color: var(--shell-bg); }
+pre.cmd > code { color: var(--shell-ink); }
+pre.cmd .comment { color: #8f97a3; }
+
+/* The `data-label` renders as a header strip INSIDE the block. An earlier
+   version straddled the top border, which meant it was clipped by the block's
+   own overflow and collided with any coloured background behind it. */
+pre[data-label] { padding-top: 36px; }
+pre[data-label]::before {
+  content: attr(data-label);
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  font: 600 10.5px/1 var(--mono);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--muted);
+  background: rgba(0, 0, 0, .025);
+  border-bottom: 1px solid var(--border);
+  border-radius: 9px 9px 0 0;
+  padding: 10px 74px 9px 16px;   /* right padding clears the copy button */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+pre.cmd[data-label]::before {
+  color: #9fb3cd;
+  background: rgba(255, 255, 255, .06);
+  border-bottom-color: #2b323d;
+}
+
+/* Expected output — deliberately not copyable-looking. */
+pre.output { background: var(--output-bg); border-style: dashed; }
+pre.output > code { color: var(--muted); font-size: 13px; }
+pre.output[data-label]::before { border-bottom-style: dashed; }
+
+.copy-btn {
+  position: absolute; top: 5px; right: 8px;
+  font: 600 11px var(--mono);
+  color: #cfd6df; background: #2a3140;
+  border: 0; border-radius: 6px;
+  padding: 4px 9px; cursor: pointer;
+  z-index: 1;
+}
+.copy-btn:hover { background: #39445a; color: #fff; }
+.copy-btn.ok { background: var(--green); color: #fff; }
+pre:not(.cmd) .copy-btn { background: #dfd9c8; color: #4a4d55; }
+pre:not(.cmd) .copy-btn:hover { background: #cdc6b1; color: var(--ink); }
+
+/* ---------- callouts ---------- */
+
+.callout {
+  border: 1px solid var(--blue-edge);
+  background: var(--blue-bg);
+  border-radius: 10px;
+  padding: 16px 18px;
+  margin: 0 0 var(--s-4);
+  font-size: .95em;
+}
+.callout > :last-child { margin-bottom: 0; }
+.callout .title {
+  font: 700 12px/1.4 var(--mono);
+  letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent-ink);
+  margin: 0 0 var(--s-2);
+}
+.callout pre { margin-bottom: var(--s-2); }
+.callout > pre:last-child { margin-bottom: 0; }
+.callout.warn { background: var(--amber-bg); border-color: var(--amber-edge); }
+.callout.warn .title { color: #8a6414; }
+.callout.win { background: var(--green-bg); border-color: var(--green-edge); }
+.callout.win .title { color: var(--green); }
+
+/* ---------- figures ---------- */
+
+figure.diagram {
+  margin: var(--s-4) 0 var(--s-5);
+  padding: 18px 14px 10px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+figure.diagram svg { display: block; width: 100%; height: auto; }
+figure.diagram figcaption {
+  font-size: .84em; color: var(--muted);
+  line-height: 1.55; margin-top: var(--s-2); padding: 0 6px;
+}
+
+/* ---------- tables ---------- */
+
+/* display:block + overflow-x lets a wide table scroll inside the text column
+   instead of widening the whole page. */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 0 0 var(--s-4);
+  font-size: .92em;
+  display: block;
+  overflow-x: auto;
+}
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th {
+  font: 600 12px/1.4 var(--mono);
+  text-transform: uppercase;
+  letter-spacing: .06em;
+  color: var(--muted);
+  white-space: nowrap;
+}
+td code { white-space: nowrap; }
+
+/* ---------- lesson furniture ---------- */
+
+.sources { font-size: .86em; color: var(--muted); line-height: 1.6; }
+.sources ol { padding-left: 1.3rem; }
+.sources li { margin-bottom: var(--s-2); }
+
+.next {
+  display: flex; justify-content: space-between; gap: var(--s-3); flex-wrap: wrap;
+  border-top: 1px solid var(--border);
+  margin-top: var(--s-6); padding-top: var(--s-3);
+  font-size: .95em;
+}
+
+footer.colophon {
+  max-width: 46rem; margin: var(--s-6) auto 0;
+  font: 500 12px/1.75 var(--mono); color: var(--faint);
+  border-top: 1px solid var(--border); padding-top: var(--s-3);
+  overflow-wrap: break-word;
+}
+
+/* ---------- step-through animations (optional anim.js component) ---------- */
+
+figure[data-anim] .anim-cap { display: none; }
+figure[data-anim].anim-ready .anim-el {
+  opacity: 0;
+  transform: translateY(5px);
+  transition: opacity .45s ease, transform .45s ease;
+}
+figure[data-anim].anim-ready .anim-el.on { opacity: 1; transform: none; }
+
+.pulse { transform-box: fill-box; transform-origin: center; }
+figure[data-anim].anim-ready .current .pulse,
+figure[data-anim].anim-ready .current.pulse { animation: beat 1.1s ease-in-out infinite; }
+
+.flow { stroke-dasharray: 7 5; }
+.flow.always,
+figure[data-anim].anim-ready .current .flow,
+figure[data-anim].anim-ready .current.flow { animation: flowdash .9s linear infinite; }
+
+@keyframes flowdash { to { stroke-dashoffset: -12; } }
+@keyframes beat { 50% { transform: scale(1.07); } }
+
+.anim-controls {
+  display: flex; align-items: center; gap: 8px; flex-wrap: wrap;
+  margin: 12px 4px 0;
+  font: 500 12.5px var(--mono); color: var(--muted);
+}
+.anim-controls button {
+  font: 600 12px var(--mono);
+  border: 1px solid var(--border); background: #fff; color: var(--accent-ink);
+  border-radius: 7px; padding: 5px 11px; cursor: pointer;
+}
+.anim-controls button:hover { border-color: var(--accent); }
+.ab-cap { flex: 1 1 12rem; min-width: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  figure[data-anim].anim-ready .anim-el { transition: none; }
+  .flow.always, .flow, .pulse { animation: none !important; }
+}
+
+/* ---------- narrow screens ---------- */
+
+@media (max-width: 640px) {
+  body { padding: 2rem 1rem 4rem; font-size: 17px; }
+  h1 { font-size: 1.85rem; }
+  h2 { font-size: 1.3rem; margin-top: var(--s-5); }
+  .lede { font-size: 1.06rem; }
+  .callout, figure.diagram { padding-left: 13px; padding-right: 13px; }
+  pre { padding: 12px 13px; }
+  pre[data-label] { padding-top: 34px; }
+  pre[data-label]::before { padding-left: 13px; }
+  pre > code { font-size: 13px; }
+  td code { white-space: normal; }
+  .next { flex-direction: column; gap: var(--s-2); }
+}
+
+/* ---------- print (reference docs are meant to print well) ---------- */
+
+@media print {
+  body { background: #fff; font-size: 11pt; padding: 0; }
+  main { max-width: none; }
+  .copy-btn, .progress, section.quiz, .no-print, .next { display: none !important; }
+  pre { break-inside: avoid; }
+  pre.cmd { background: #f2f2f2; border: 1px solid #ccc; }
+  pre.cmd > code { color: #111; }
+  pre.cmd[data-label]::before { color: #555; background: #e8e8e8; border-bottom-color: #ccc; }
+  table { display: table; }
+  figure.diagram { break-inside: avoid; }
+  h2, h3 { break-after: avoid; }
+  figure[data-anim] .anim-el { opacity: 1 !important; transform: none !important; }
+  .anim-controls { display: none !important; }
+  a { color: inherit; text-decoration: none; }
+}
