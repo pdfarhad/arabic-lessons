@@ -21,7 +21,11 @@
   word set per chapter, dictionary-check header), `knowledge/00NN-*.md`.
 - **Audio**: browser speechSynthesis, `lang="ar-SA"`, via `assets/audio.js`. Derived from
   the printed vocalised text; overrides only where print ≠ speech, noted per line.
-- **Public build**: `scripts/build-public.sh` → `docs/`, served by GitHub Pages.
+- **Public build**: `scripts/build-public.sh` → `docs/`, served by GitHub Pages
+  (repo `pdfarhad/arabic-lessons`, site https://pdfarhad.github.io/arabic-lessons/,
+  Pages source: main branch `/docs`). Rebuild docs/ and commit it whenever pages
+  change. `.gitignore` keeps `library/raw/` (copyrighted book scans), `highlights/`
+  and `quiz-results/` (personal learning state) out of the public repo.
   Highlighter (agent-only) is stripped; quiz stays but self-disables persistence off
   localhost (guard added in `assets/quiz.js` `record()`); flashcards/builder/audio are
   client-side and ship as-is. Footers are written deploy-agnostically.
