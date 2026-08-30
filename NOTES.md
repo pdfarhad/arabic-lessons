@@ -2,9 +2,20 @@
 
 ## Standing decisions (dated, user's words)
 
-- **2026-08-23 — Publish to GitHub Pages as part of finishing.** User: "github publish"
-  (initial /learn request) and chose "Public repo + Pages". Repo: `arabic-lessons` on
-  `pdfarhad`. Every finished unit gets built into `docs/` and pushed; report the URL.
+- **2026-08-23 — Publish as part of finishing.** User: "github publish" (initial /learn
+  request) and chose "Public repo + Pages". Repo: `arabic-lessons` on `pdfarhad`. Every
+  finished unit gets built into `docs/` and pushed.
+- **2026-08-30 — The public URL is pdfarhad.com/learning/arabic.** User: "please make
+  sure everything is published to pdfarhad.com/learning/arabic". The personal site
+  (`~/Works/personal_site/pdfarhad.github.io`, Astro on Cloudflare Workers) mounts
+  `arabic-lessons@main:docs/` at build time via `scripts/sync-learning.mjs`; the
+  github.io Pages URL is only the source feed. Cloudflare rebuilds on pushes to the
+  *site* repo, not on course pushes, so **after every `arabic-lessons` push also run**
+  `cd ~/Works/personal_site/pdfarhad.github.io && git commit --allow-empty -m "Rebuild:
+  arabic course updated" && git push origin master` (the site repo's branch is
+  **master**) and report the pdfarhad.com URL once it answers.
+  (The automatic paths — site repo secret `CF_DEPLOY_HOOK`, course repo workflow
+  `notify-site.yml` + `SITE_DISPATCH_PAT` — are not configured as of 2026-08-30.)
 - **2026-08-23 — Grammar practice format.** User chose "Builder + MCQ mix": tap-to-order
   sentence builder (assets/builder.js) plus agreement MCQs in the quiz widget.
 - **2026-08-23 — No transliteration.** User reads and writes the script already. Lessons,
