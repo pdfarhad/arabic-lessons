@@ -34,3 +34,25 @@
   - §p.5 — drill tables 1–8
 - **Authority:** ⭐ §p.1–5 → **authoritative for: Unit 2 scope & wording** (class syllabus)
 - **Ingested:** 2026-08-23
+
+## Lesson 3/ (photo set)
+- **Title:** Al-Arabiyyah Bayna Yadayk, Book 1, Unit 3 — السَّكَن (Housing); class
+  handout photos, 5 pages
+- **Format:** PNG photos · library/raw/Lesson 3/1.png–5.png · readable:
+  library/readable/lesson-03.md (full transcription + drag-in flags)
+- **Covers:** Where you live (district, house vs flat, house number), renting a flat
+  (rooms, floor, viewing), buying furniture room by room, days of the week,
+  substitution drills. Drags in: I/you verb forms (أَسْكُنُ/تَسْكُنُ، أُريدُ/تُريدُ), the
+  ـًا object ending after أُريد, counted nouns (خَمْسُ غُرَفٍ), ordinals
+  (الدَّوْر الخامِس), كَمْ + singular, noun + adjective agreement (شَقَّةٌ جَميلَة),
+  أَيّ "which", لِـ "for" (flagged in the transcription).
+- **Section map:**
+  - §p.1 — where-do-you-live dialogue (أَيْنَ تَسْكُنُ، حَيّ، بَيْت/شَقَّة، رَقْم)
+  - §p.2 — renting dialogue (أُريدُ، لَدَيْنا، كَمْ غُرْفَةً، خَمْسُ غُرَفٍ، الدَّوْر الخامِس، مُشاهَدَة)
+  - §p.3 — furniture-shop dialogue (ماذا تُريدُ لِـ…، the furniture words)
+  - §p.4 — days of the week strip السَّبْت … الجُمْعَة
+  - §p.5 — drill tables 1–10
+- **Authority:** ⭐ §p.1–5 → **authoritative for: Unit 3 scope & wording** (class
+  syllabus); ⭐ §p.2 + p.5 drills 4, 6, 7 → **authoritative for: numbers-in-use**
+  (counted nouns, ordinals, كَمْ) — the numbers chapter is built from these lines
+- **Ingested:** 2026-08-30

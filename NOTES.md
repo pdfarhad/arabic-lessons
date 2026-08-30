@@ -29,8 +29,22 @@
   Highlighter (agent-only) is stripped; quiz stays but self-disables persistence off
   localhost (guard added in `assets/quiz.js` `record()`); flashcards/builder/audio are
   client-side and ship as-is. Footers are written deploy-agnostically.
-- **Numbering**: lessons `0001…`; reading chapters and flashcard decks are separate
-  categories with their own numbering (never in the lesson sequence).
+- **Numbering**: lessons `0001…`; reading chapters, flashcard decks and topic
+  chapters are separate categories with their own numbering (never in the lesson
+  sequence).
+- **Topic chapters** (added 2026-08-30, user: "make a separate chapter on numbers and
+  their different forms"): cross-unit topics live in `chapters/c00N-*.html`, nav group
+  "Topic Chapters", own index section, copied by build-public.sh and wired by
+  wire-theme.py. Scope rule: class-page material taught in full; pattern-completing
+  material shown for recognition only and tagged `<span class="beyond">beyond the
+  book</span>` (style in arabic.css), marked ⟂ in the knowledge note, never drilled.
+  See learning record 0003.
+- **Reveal scenes**: `assets/reveal.js` + `reveal.css` — beat-by-beat build-ups
+  (`.reveal > .beat` with a `.beat-cap` caption each; `.reveal.stack` piles beats
+  upward for "floors"). Degrades to the full scene without JS and in print. Use it
+  for anything that happens in an order before reaching for prose.
+- **Shared table style**: `.ref` (scrolling reference table) now lives in arabic.css,
+  not per page.
 - **Theme**: user-requested (2026-08-23, "just add fuji theme") — a single optional
   night theme named `fuji` (indigo/snow/dawn-pink), reader-operated toggle, light by
   default. Built from the skill's theme component: `assets/theme.css` + `assets/theme.js`

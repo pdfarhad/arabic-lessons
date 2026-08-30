@@ -13,7 +13,8 @@ import re, sys, unicodedata
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-ALT = {"ولد": "أولاد"}          # singular carded, only the plural is printed
+ALT = {"ولد": "أولاد",         # singular carded, only the plural is printed
+       "شيء": "شيئا"}          # ء becomes ئ before the ـًا ending (شَيْئاً)
 
 def strip_marks(s):
     s = unicodedata.normalize("NFD", s)

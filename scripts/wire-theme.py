@@ -30,7 +30,7 @@ OLD_GUARDS = []   # outgoing guards from earlier theme sets; never prune
 
 def pages():
     yield ROOT / "index.html", "assets/"
-    for d in ("lessons", "reading", "vocab", "reference"):
+    for d in ("lessons", "reading", "vocab", "chapters", "reference"):
         for p in sorted((ROOT / d).glob("*.html")):
             yield p, "../assets/"
 

@@ -111,3 +111,27 @@
 .pair { display: grid; grid-template-columns: 1fr 1fr; gap: var(--s-2); }
 .pair > * { min-width: 0; }
 @media (max-width: 520px) { .pair { grid-template-columns: 1fr; } }
+
+/* ---------- reference tables (frames sheet, numbers chapter) ---------- */
+
+.ref { display: block; overflow-x: auto; margin: var(--s-3) 0; }
+.ref table { width: 100%; border-collapse: collapse; }
+.ref th, .ref td { padding: 6px 10px; border-bottom: 1px solid var(--border); text-align: left; vertical-align: top; }
+.ref td.ar { text-align: right; white-space: nowrap; }
+.ref td .say { vertical-align: middle; }
+
+/* "beyond the book" scope tag — marks pattern-completing material the class
+   has not reached yet (recognition only) */
+.beyond {
+  display: inline-block;
+  font: 600 10px/1.6 var(--mono);
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--amber-bg);
+  border: 1px solid var(--amber-edge);
+  color: var(--ink);
+  vertical-align: middle;
+  white-space: nowrap;
+}
