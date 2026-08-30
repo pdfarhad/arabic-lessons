@@ -50,6 +50,16 @@
   material shown for recognition only and tagged `<span class="beyond">beyond the
   book</span>` (style in arabic.css), marked ⟂ in the knowledge note, never drilled.
   See learning record 0003.
+- **Cumulative chapters** (2026-08-30, user: "the chapter will grow"): `c002-prepositions`
+  covers every preposition attested so far and carries a "Coverage so far" ledger. On
+  each new unit's ingest, grep the transcription for prepositions / new uses and
+  **append** to c002 (ledger row, gap-fill, knowledge note); bump its "covers Units
+  1–N" line. Never start a second prepositions chapter. See learning record 0004.
+- **Gap-fill practice**: `assets/gapfill.js` + `gapfill.css` — `.gap` block with
+  `.task`, `.sentence` (___ marks the blank), `.options` (· separated), `.answer`,
+  optional `.why`; an element `#gap-score` shows solved/total. The right widget for a
+  small closed set of words (prepositions, particles, endings). Builder = word order,
+  quiz = recognition/recall, gap-fill = choice.
 - **Reveal scenes**: `assets/reveal.js` + `reveal.css` — beat-by-beat build-ups
   (`.reveal > .beat` with a `.beat-cap` caption each; `.reveal.stack` piles beats
   upward for "floors"). Degrades to the full scene without JS and in print. Use it

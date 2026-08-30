@@ -1,0 +1,67 @@
+/* gapfill.css — tap-a-chip-into-the-gap practice (paired with gapfill.js) */
+
+.gap {
+  margin: var(--s-3) 0;
+  padding: var(--s-3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.gap > * { min-width: 0; }
+.gap .task { margin: 0 0 var(--s-1); font-weight: 700; }
+.gap .why { margin: var(--s-1) 0 0; font-size: .9em; color: var(--muted); }
+
+.gap-sentence { margin: var(--s-1) 0 var(--s-2); text-align: right; }
+.gap-slot {
+  display: inline-block;
+  min-width: 2.6em;
+  margin: 0 .15em;
+  padding: 0 .35em;
+  text-align: center;
+  border-bottom: 2px dashed var(--blue-edge);
+  background: var(--blue-bg);
+  border-radius: 6px 6px 0 0;
+}
+.gap-slot.ok  { border-bottom-color: var(--green-edge); background: var(--green-bg); color: var(--green); }
+.gap-slot.bad { border-bottom-color: var(--amber-edge); background: var(--amber-bg); }
+
+.gap-chips {
+  display: flex; flex-wrap: wrap; gap: var(--s-1);
+  direction: rtl;
+  margin-bottom: var(--s-2);
+}
+.gap-chip {
+  font-family: var(--arabic);
+  font-size: 1.05em;
+  line-height: 1.9;
+  padding: 1px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--blue-edge);
+  background: var(--blue-bg);
+  color: var(--ink);
+  cursor: pointer;
+}
+.gap-chip:hover { border-color: var(--accent); }
+.gap-chip:disabled { cursor: default; opacity: .55; }
+.gap-chip.on { opacity: 1; background: var(--green-bg); border-color: var(--green-edge); }
+
+.gap-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--s-2); min-height: 1.8rem; }
+.gap-status { font: 500 12px/1.5 var(--mono); color: var(--accent-ink); }
+.gap-ok { font: 700 16px/1 var(--mono); color: var(--green); }
+.gap-btn {
+  font: 600 13px/1.5 var(--mono);
+  padding: 5px 14px;
+  border-radius: 9px;
+  border: 1px solid var(--border);
+  background: var(--panel);
+  cursor: pointer;
+}
+.gap-btn:hover { border-color: var(--accent); }
+
+#gap-score { font: 600 12px/1.6 var(--mono); color: var(--muted); }
+
+/* no-JS / print: the sentence, options and answer stay visible as a worked example */
+@media print {
+  .gap-ui { display: none; }
+  .gap .sentence, .gap .options, .gap .answer, .gap .why { display: block !important; }
+}

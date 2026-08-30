@@ -18,6 +18,8 @@ window.COURSE_MAP = {
       items: [
         { n: 1, id: "c001-numbers", title: "Numbers and Their Forms",
           path: "chapters/c001-numbers.html", min: 25 },
+        { n: 2, id: "c002-prepositions", title: "Prepositions — the placing words",
+          path: "chapters/c002-prepositions.html", min: 25 },
       ] },
     { label: "Dialogue Readers",
       items: [
