@@ -75,3 +75,13 @@
   can re-point them. New pages must be run through wire-theme.py.
 - Tanwin: the book prints full tanwin in drills (مُدَرِّسٌ) but drops it in some pausal
   dialogue lines. Keep whatever the page prints; teach the pausal-form point once.
+- **Lifting a "beyond the book" tag** (2026-09-02, Unit 4 attested السّادِسَة/السّابِعَة
+  as clock hours): when a later unit puts a tagged form on a class page, edit the tag
+  in place — narrow it to what is still unattested, cite the unit, add at most a short
+  callout — and narrow the ⟂ in the knowledge note. Do not restructure the chapter or
+  start a new one. See learning record 0005.
+- **Time expressions** (2026-09-02): عِنْدَ / بَعْدَ live in c002 (with the grammarians'
+  "semi-preposition" caveat stated once); the bare -a time ending (السّاعَةَ، يَوْمَ) is
+  c002 §5 "the missing preposition". Lesson pages link there rather than re-explaining.
+- **Unit 4 ingest** (2026-09-02): pages 1–4 only (three dialogues + drills; the unit
+  title is not on the photos). Names are not carded (precedent from Unit 3).

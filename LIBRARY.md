@@ -56,3 +56,31 @@
   syllabus); ⭐ §p.2 + p.5 drills 4, 6, 7 → **authoritative for: numbers-in-use**
   (counted nouns, ordinals, كَمْ) — the numbers chapter is built from these lines
 - **Ingested:** 2026-08-30
+
+## Lesson 4/ (photo set)
+- **Title:** Al-Arabiyyah Bayna Yadayk, Book 1, Unit 4 — الحَياةُ اليَوْمِيَّة (Daily
+  Life); class handout photos, 4 pages
+- **Format:** PNG photos · library/raw/Lesson 4/1.png–4.png · readable:
+  library/readable/lesson-04.md (full transcription + drag-in flags)
+- **Covers:** A morning routine (waking, fajr, after the prayer, going to school and how),
+  the family's chores on the day off, a holiday morning (early/late, TV or a newspaper,
+  Friday prayer at the big mosque), substitution drills. Drags in: the feminine "you"
+  verb form (تَفْعَلينَ), the future سَـ, لا + verb, مَتى and five time shapes
+  (عِنْدَ، بَعْدَ، في الصَّباحِ، the bare السّاعَةَ / يَوْمَ, مُبَكِّراً), بِـ "by" for
+  transport, إِلى + destination (incl. people), clock time with feminine ordinals 1–7,
+  definite noun + definite adjective (المَسْجِدِ الكَبيرِ), أَو، أَيْضاً (flagged in the
+  transcription).
+- **Section map:**
+  - §p.1 — when-do-you-wake dialogue (مَتى، عِنْدَ الفَجْرِ، بَعْدَ الصَّلاةِ، لا أَنامُ،
+    السّاعَةَ السّابِعَةَ، بِالحافِلَةِ)
+  - §p.2 — day-off dialogue (يَوْمُ العُطْلَةِ / العَمَلِ، ماذا سَتَفْعَلُ / سَتَفْعَلينَ، the
+    chores: سَأَكْنُسُ، سَأَغْسِلُ، سَأَكْوي)
+  - §p.3 — holiday-morning dialogue (مُبَكِّراً / مُتَأَخِّراً، في الصَّباحِ، أَو، الجُمُعَة،
+    المَسْجِدِ الكَبيرِ، أَيْضاً)
+  - §p.4 — drill tables 1–8 (verb + object, سَـ, ماذا + m./f. you-forms, إِلى +
+    destinations, السّاعَة 1–6, verb + object + في + place, أَيْنَ + verb)
+- **Authority:** ⭐ §p.1–4 → **authoritative for: Unit 4 scope & wording** (class
+  syllabus); ⭐ §p.1, p.3, drills 5–7 → **authoritative for: time expressions and
+  prepositions in use** (عِنْدَ، بَعْدَ، بِـ "by", إِلى, the bare time ending) — the
+  prepositions chapter's Unit 4 material is built from these lines
+- **Ingested:** 2026-09-02

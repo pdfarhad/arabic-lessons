@@ -1,7 +1,8 @@
 # Knowledge: Numbers and Their Forms
 
 > Distilled from topic chapter [c001](../chapters/c001-numbers.html). Cross-unit:
-> built from Units 1–3. "Beyond the book" claims are marked ⟂ — recognition only.
+> built from Units 1–3, clock hours added from Unit 4 (2026-09-02). "Beyond the book"
+> claims are marked ⟂ — recognition only.
 
 - **Claim.** The book uses the Eastern Arabic digits ٠١٢٣٤٥٦٧٨٩; multi-digit numbers
   read left-to-right even inside right-to-left text (١٠ = 10, ٢٥ = 25).
@@ -34,9 +35,15 @@
   (add ة; 1st feminine is الأُولى), with no polarity.
   — Unit 3 p.2, p.5 drill 6; Wikipedia *Arabic grammar* § Ordinal numerals; Wiktionary
   أولى (checked 2026-08-30)
-- **Claim.** ⟂ 6th–10th continue the pattern: السّادِس، السّابِع، الثّامِن، التّاسِع،
-  العاشِر; "sixth" (سادِس) comes from a different, older root than سِتَّة.
-  — Wikipedia *Arabic grammar* § Ordinal numerals; Wiktionary سادس، عاشر
+- **Claim.** 6th and 7th are now attested, as clock hours: السّاعَةُ السّادِسَة،
+  السّاعَةُ السّابِعَة (Unit 4 p.1, drill 6); "sixth" (سادِس) comes from a different, older
+  root than سِتَّة. ⟂ 8th–10th continue the pattern: الثّامِن، التّاسِع، العاشِر.
+  — Unit 4 p.1, p.4 drill 6 (added 2026-09-02); Wikipedia *Arabic grammar* § Ordinal
+  numerals; Wiktionary سادس، سابع، عاشر
+- **Claim.** Clock time is السّاعَة + the feminine ordinal, both definite: السّاعَةُ
+  الواحِدَة … السّابِعَة (one to seven o'clock). "At seven" takes no preposition — the
+  phrase ends in -a: أَذْهَبُ السّاعَةَ السّابِعَةَ (taught as a shape; detail in c002 §5).
+  — Unit 4 p.1, p.4 drill 6; Wiktionary ساعة "hour" (checked 2026-09-02)
 - **Claim.** Days of the week (week starts Saturday): السَّبْت "rest" (Sabbath root);
   الأَحَد "the one"; الإِثْنَيْن "the two"; الثُّلاثاء "the three"; الأَرْبِعاء "the
   four"; الخَميس "the five"; الجُمْعَة "the gathering" (root ج-م-ع as in جامِعَة).
