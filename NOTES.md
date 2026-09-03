@@ -85,3 +85,11 @@
   c002 §5 "the missing preposition". Lesson pages link there rather than re-explaining.
 - **Unit 4 ingest** (2026-09-02): pages 1–4 only (three dialogues + drills; the unit
   title is not on the photos). Names are not carded (precedent from Unit 3).
+- **Sentence builders, how many** (2026-09-03, user: "add more of sentence making in
+  the chapters, also add similar trick in preposition chapter"): every lesson carries
+  ~11 builders and each topic chapter 10–15. The first four are single lines; the rest
+  are whole exchanges (question + answer) so both dialogue roles get built, and in c002
+  every distractor is another preposition or a wrong ending. `builder.js` shows a
+  progress line in `<span id="build-score">` (built / total; a revealed answer counts),
+  mirroring the gap-fill's `#gap-score`. Builders stay inside the unit's attested
+  frames; a chapter's builders may mix units.

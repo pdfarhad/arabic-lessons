@@ -11,16 +11,27 @@
 //
 // The learner taps Arabic word-chips into order; Check grades the sequence
 // (punctuation ignored), a correct build is spoken aloud, and after two misses
-// a reveal is offered. Client-side only — works identically on the static site.
+// a reveal is offered. An element with id="build-score" on the page, if present,
+// shows "built / total" (a revealed answer counts as built — it is a progress
+// line, not a grade). Client-side only — works identically on the static site.
 
 (() => {
   const strip = t => t.replace(/[.؟!،]/g, "");
   const esc = s => String(s).replace(/[&<>"]/g,
     c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
-  document.querySelectorAll(".build").forEach(box => {
+  // optional progress line: <span id="build-score"></span> anywhere on the page
+  const boxes = [...document.querySelectorAll(".build")].filter(b => b.querySelector(".solution"));
+  const score = document.getElementById("build-score");
+  let builtCount = 0;
+  function updateScore() {
+    if (score) score.textContent = `${builtCount} / ${boxes.length} built`;
+  }
+
+  boxes.forEach(box => {
     const solEl = box.querySelector(".solution");
-    if (!solEl) return;
+    let counted = false;
+    const countOnce = () => { if (!counted) { counted = true; builtCount++; updateScore(); } };
     const solutionText = solEl.textContent.trim().replace(/\s+/g, " ");
     const answer = solutionText.split(" ").map(strip).filter(Boolean);
     const distract = (box.querySelector(".distract")?.textContent.trim().split(/\s+/) || [])
@@ -81,7 +92,7 @@
       ui.querySelector(".build-check")?.addEventListener("click", check);
       ui.querySelector(".build-reset")?.addEventListener("click", reset);
       ui.querySelector(".build-reveal")?.addEventListener("click", () => {
-        solved = true; render();
+        solved = true; countOnce(); render();
       });
       const say = ui.querySelector(".build-say");
       say?.addEventListener("click", () => window.ArabicAudio.speak(solutionText, say));
@@ -91,6 +102,7 @@
       const got = picked.map(c => c.w);
       if (got.length === answer.length && got.every((w, k) => w === answer[k])) {
         solved = true;
+        countOnce();
         render();
         window.ArabicAudio.speak(solutionText);
       } else {
@@ -105,4 +117,6 @@
 
     reset();
   });
+
+  updateScore();
 })();
