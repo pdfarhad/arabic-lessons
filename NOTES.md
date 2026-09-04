@@ -46,7 +46,19 @@
   paper prints no key; never let the key read as the book's text) → catalogued in
   LIBRARY.md with authority "what the class tests on Units …". Exam-only rubric words
   (imperatives, category labels) are flagged at ingest and never added to a unit's word
-  set. No practice-page shape has been set yet for exams — first one is a design question.
+  set. **Practice-paper page** (2026-09-04, user: "build it"): `exams/x00N-*.html`, nav
+  group "Practice Papers", index section 5, own numbering. The paper is reproduced
+  exercise for exercise in its own formats and printed order — matching
+  (`assets/matching.js` + `.css`, the صِلْ بَيْنَ exercises), recall cards (open "add two
+  words"), MCQ (odd one out, نَعَمْ / لا), gap-fill (brackets), a `.passage` block with
+  one 🔊 and a closed meaning. Each `<section class="exercise" data-marks=N>` has a
+  `.marks` box; `.exam-total[data-total]` is fed by `assets/exam-score.js` from the
+  `data-result="ok|bad"` the widgets now stamp (quiz.js, gapfill.js, matching.js);
+  **only a first-try answer earns the mark**, retries allowed. Plus a rubric strip
+  (recognition) and a reveal for any new shape the paper drags in. Styles in
+  `assets/exam.css`. Gates before done: `scripts/check-exam.py` (marks, keys, ids),
+  `sh scripts/test-widgets.sh` (click path, headless Chrome), check-lesson. See
+  learning record 0006.
 - **Numbering**: lessons `0001…`; reading chapters, flashcard decks and topic
   chapters are separate categories with their own numbering (never in the lesson
   sequence).

@@ -1,0 +1,68 @@
+/* matching.css — join-the-two-columns practice (paired with matching.js).
+ * With no JS the two columns and the answer line are the printed exercise. */
+
+.match {
+  margin: var(--s-3) 0;
+  padding: var(--s-3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.match > * { min-width: 0; }
+.match .task { margin: 0 0 var(--s-2); font-weight: 700; }
+
+/* the two columns sit as on the paper: numbered items on the right, lettered on the left */
+.match-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--s-2);
+  direction: rtl;
+}
+.match-cols > * { min-width: 0; }
+
+.match ol { list-style: none; margin: 0; padding: 0; counter-reset: mi; }
+.match li {
+  position: relative;
+  margin: 0 0 var(--s-1);
+  padding: 2px 10px;
+  border: 1px solid var(--border);
+  border-radius: 9px;
+  background: var(--panel);
+  text-align: right;
+  overflow-wrap: break-word;
+}
+.match .from > li::before { counter-increment: mi; content: counter(mi, arabic-indic) "- "; color: var(--muted); }
+.match .to > li::before { content: attr(data-key) "- "; color: var(--muted); }
+
+.match-js li { cursor: pointer; }
+.match-js li:hover { border-color: var(--accent); }
+.match-js li:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+.match li.sel { background: var(--blue-bg); border-color: var(--accent); box-shadow: 0 0 0 2px var(--blue-edge); }
+.match li.ok  { background: var(--green-bg); border-color: var(--green-edge); cursor: default; }
+.match li.bad { background: var(--amber-bg); border-color: var(--amber-edge); }
+
+/* a joined partner wears the number of the item it was joined to */
+.match .to > li.ok { padding-left: 2.6em; }
+.match .to > li.ok::after {
+  content: attr(data-pair);
+  position: absolute;
+  left: 8px; top: 50%;
+  transform: translateY(-50%);
+  font-family: var(--arabic);
+  font-size: .8em; line-height: 1.6;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: var(--panel);
+  border: 1px solid var(--green-edge);
+  color: var(--green);
+}
+
+.match .answer { margin: var(--s-2) 0 0; }
+.match-status { margin: var(--s-1) 0 0; min-height: 1.4em; font: 500 12px/1.5 var(--mono); color: var(--accent-ink); }
+.match.done .match-status { color: var(--green); font-weight: 700; }
+#match-score { font: 600 12px/1.6 var(--mono); color: var(--muted); }
+
+@media print {
+  .match-status { display: none; }
+  .match .answer { display: block !important; }
+}

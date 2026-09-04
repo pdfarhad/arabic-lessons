@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>widget click-path harness</title>
+<!-- Driven by scripts/test-widgets.sh in headless Chrome over file:// — plain scripts
+     only (quiz.js is a module and needs http; its data-result stamp is exercised on the
+     real page via check-lesson + a manual pass). Results land in the #out pre as JSON. -->
+</head>
+<body>
+<p class="exam-total" data-total="3"><b>0</b> / 3<span class="exam-progress"></span></p>
+<section class="exercise" id="exA" data-marks="3">
+  <span class="marks">– / 3</span>
+  <div class="match" data-id="mA">
+    <div class="match-cols">
+      <ol class="from ar"><li data-key="ب">one</li><li data-key="أ">two</li></ol>
+      <ol class="to ar"><li data-key="أ">alif</li><li data-key="ب">ba</li></ol>
+    </div>
+    <p class="answer ar">١ ب · ٢ أ</p>
+  </div>
+  <div class="gap" data-id="gA">
+    <p class="sentence ar">x ___ y</p>
+    <p class="options ar">right · wrong</p>
+    <p class="answer ar">right</p>
+  </div>
+</section>
+<!-- a malformed match (key with no partner) must be left as printed -->
+<div class="match" data-id="mBad">
+  <div class="match-cols">
+    <ol class="from ar"><li data-key="ج">x</li></ol>
+    <ol class="to ar"><li data-key="أ">y</li></ol>
+  </div>
+  <p class="answer ar">١ ج</p>
+</div>
+<pre id="out"></pre>
+<script src="../assets/gapfill.js"></script>
+<script src="../assets/matching.js"></script>
+<script src="../assets/exam-score.js"></script>
+<script>
+(() => {
+  const R = {};
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const from = $$('#exA .from > li'), to = $$('#exA .to > li');
+  const click = el => el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+
+  R['answer line hidden once JS runs'] = $('#exA .match .answer').hidden === true;
+  R['malformed match left untouched'] = !$('.match[data-id="mBad"]').classList.contains('match-js')
+    && $('.match[data-id="mBad"] .answer').hidden !== true;
+
+  // pick from[0], then a WRONG partner → both flash bad, no result yet, misses recorded
+  click(from[0]); R['first tap selects'] = from[0].classList.contains('sel');
+  click(to[0]);
+  R['wrong join flashes both'] = from[0].classList.contains('bad') && to[0].classList.contains('bad');
+  R['wrong join stamps no result'] = !from[0].dataset.result;
+  R['wrong join clears selection'] = !from[0].classList.contains('sel');
+  // now the RIGHT partner → joined, but the mark is lost
+  click(from[0]); click(to[1]);
+  R['late join is ok-classed'] = from[0].classList.contains('ok') && to[1].classList.contains('ok');
+  R['late join stamps bad'] = from[0].dataset.result === 'bad';
+  R['partner wears the number'] = to[1].dataset.pair === '١';
+  // reverse order (partner first) on a first try → ok
+  click(to[0]); click(from[1]);
+  R['reverse-order first-try join stamps ok'] = from[1].dataset.result === 'ok';
+  R['box marked done'] = $('#exA .match').classList.contains('done');
+  R['joined item ignores further taps'] = (click(from[1]), !from[1].classList.contains('sel'));
+
+  // gap: correct chip first time → ok
+  const chip = $$('#exA .gap-chip').find(b => b.dataset.w === 'right');
+  click(chip);
+  R['gap first-try stamps ok'] = $('#exA .gap').dataset.result === 'ok';
+
+  // tally renders after the observer's microtask
+  setTimeout(() => {
+    R['exercise marks = 2 / 3'] = $('#exA .marks').textContent === '2 / 3';
+    R['exercise marked complete'] = $('#exA .marks').classList.contains('marked');
+    R['total = 2 / 3'] = $('.exam-total b').textContent === '2' && /\/ 3/.test($('.exam-total').textContent);
+    R['progress = 3 of 3 answered'] = /3 of 3 answered/.test($('.exam-total').textContent);
+    $('#out').textContent = JSON.stringify(R);
+  }, 0);
+})();
+</script>
+</body>
+</html>

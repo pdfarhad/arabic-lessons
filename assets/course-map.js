@@ -34,6 +34,11 @@ window.COURSE_MAP = {
         { n: 4, id: "r004-unit-4-dialogues", title: "Unit 4 Dialogues — speak & reveal",
           path: "reading/r004-unit-4-dialogues.html", min: 15 },
       ] },
+    { label: "Practice Papers",
+      items: [
+        { n: 1, id: "x001-exam-1", title: "Exam 1 — the paper after Units 1–4",
+          path: "exams/x001-exam-1.html", min: 35 },
+      ] },
     { label: "Flashcards",
       items: [
         { n: 1, id: "v001-unit-1-flashcards", title: "Unit 1 Vocabulary Deck",

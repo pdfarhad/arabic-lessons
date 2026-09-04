@@ -12,7 +12,7 @@ cd "$(dirname "$0")/.."
 rm -rf docs
 mkdir -p docs
 cp index.html docs/
-cp -R lessons reading vocab chapters reference assets docs/
+cp -R lessons reading vocab chapters exams reference assets docs/
 touch docs/.nojekyll
 
 # strip agent-only highlighter wiring from every page

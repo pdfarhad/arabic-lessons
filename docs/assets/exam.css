@@ -1,0 +1,64 @@
+/* exam.css — practice-paper pages (exams/): the paper's exercise framing, the marks
+ * boxes and the reading passage. Widgets keep their own sheets (matching.css,
+ * gapfill.css, quiz.css). Colours are palette variables only, so the fuji theme
+ * re-points them. */
+
+/* the running total — the paper's "= ٤٠" */
+.exam-total {
+  display: inline-flex;
+  align-items: baseline;
+  gap: var(--s-2);
+  margin: var(--s-2) 0;
+  padding: var(--s-2) var(--s-3);
+  border: 2px solid var(--amber-edge);
+  border-radius: 10px;
+  background: var(--panel);
+  font: 600 15px/1.4 var(--mono);
+  color: var(--ink);
+}
+.exam-total b { font-size: 1.5em; color: var(--accent-ink); }
+.exam-total .exam-progress { font-size: 11px; font-weight: 500; color: var(--muted); }
+.exam-total.marked { border-color: var(--green-edge); background: var(--green-bg); }
+.exam-total.marked b { color: var(--green); }
+
+/* one exercise = the paper's instruction line + its tick-box of marks */
+.exercise { margin: var(--s-4) 0; }
+.ex-head { display: flex; align-items: center; gap: var(--s-2); }
+.ex-head > * { min-width: 0; }
+.ex-head .rubric { flex: 1; margin: 0; text-align: right; font-weight: 700; }
+.ex-head .marks {
+  flex: none;
+  min-width: 3.8em;
+  padding: var(--s-1) var(--s-2);
+  text-align: center;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  background: var(--panel);
+  font: 600 13px/1.4 var(--mono);
+  color: var(--muted);
+}
+.ex-head .marks.marked { border-color: var(--green-edge); color: var(--green); }
+.exercise .task-en { margin: var(--s-1) 0 var(--s-2); color: var(--muted); font-size: .95em; }
+
+/* the reading passage: one block, one 🔊, meaning closed by default */
+.passage {
+  margin: var(--s-3) 0;
+  padding: var(--s-3);
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+.passage > * { min-width: 0; }
+.passage .line-top { align-items: flex-start; }
+.passage .line-top .ar { line-height: 2.3; }
+
+/* Arabic quiz prompts sit right-aligned beside their play button */
+.exercise .line-top .prompt { flex: 1; min-width: 0; margin: 0; text-align: right; }
+.exercise .q .choices.ar > li { text-align: right; }
+
+/* the "I → he" strip and the rubric table reuse .ref; this keeps their rows tidy */
+.ref td.en { color: var(--muted); min-width: 7em; }
+/* on a phone the long instruction lines may wrap rather than push the table wide */
+@media (max-width: 600px) {
+  .ref td.ar { white-space: normal; }
+}

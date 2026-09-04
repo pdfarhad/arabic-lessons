@@ -38,6 +38,7 @@ function enhanceMcq(qEl, prompt, answerIndex) {
       if (qEl.dataset.locked) return;
       qEl.dataset.locked = '1';
       const correct = isMcqCorrect(answerIndex, i);
+      qEl.dataset.result = correct ? 'ok' : 'bad';   // read by exam-score.js
       choices[answerIndex].classList.add('quiz-correct');
       if (!correct) li.classList.add('quiz-incorrect');
       record(qEl, ui, { question: qEl.dataset.id, type: 'mcq', prompt,
@@ -62,6 +63,7 @@ function enhanceRecall(qEl, prompt) {
       b.addEventListener('click', () => {
         if (qEl.dataset.locked) return;
         qEl.dataset.locked = '1';
+        qEl.dataset.result = correct ? 'ok' : 'bad';   // read by exam-score.js
         ui.querySelectorAll('.quiz-rate').forEach((x) => { x.disabled = true; });
         record(qEl, ui, { question: qEl.dataset.id, type: 'recall', prompt,
                           chosen: null, correct });

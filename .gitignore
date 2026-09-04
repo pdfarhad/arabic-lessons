@@ -5,3 +5,5 @@ library/raw/
 # Personal learning state (highlights, quiz attempts) stays local too.
 highlights/
 quiz-results/
+# Python bytecode from the check scripts
+__pycache__/

@@ -14,7 +14,9 @@
 // The learner taps a chip; the gap fills and is graded at once. A correct fill is
 // spoken aloud (whole sentence) and the .why line appears; after two misses a
 // "show answer" button is offered. An element with id="gap-score" on the page, if
-// present, shows "solved / total". Client-side only — identical on the static site.
+// present, shows "solved / total". Once solved, the .gap carries data-result="ok"
+// (first try) or "bad" (after a miss or a reveal) for exam-score.js. Client-side
+// only — identical on the static site.
 
 (() => {
   const esc = s => String(s).replace(/[&<>"]/g,
@@ -74,13 +76,14 @@
       if (whyEl) whyEl.hidden = !solved;
 
       ui.querySelectorAll(".gap-chip").forEach(b => b.addEventListener("click", () => pick(b.dataset.w)));
-      ui.querySelector(".gap-reveal")?.addEventListener("click", () => { filled = answer; finish(); });
+      ui.querySelector(".gap-reveal")?.addEventListener("click", () => { filled = answer; finish(true); });
       const say = ui.querySelector(".gap-say");
       say?.addEventListener("click", () => window.ArabicAudio?.speak(before + answer + after, say));
     }
 
-    function finish() {
+    function finish(revealed) {
       solved = true; solvedCount++; updateScore();
+      box.dataset.result = (!revealed && misses === 0) ? "ok" : "bad";
       render();
       window.ArabicAudio?.speak(before + answer + after);
     }
