@@ -40,6 +40,13 @@
   Highlighter (agent-only) is stripped; quiz stays but self-disables persistence off
   localhost (guard added in `assets/quiz.js` `record()`); flashcards/builder/audio are
   client-side and ship as-is. Footers are written deploy-agnostically.
+- **Exams** (2026-09-04, user: "ingest exam 1 folder"): the book's review-test photos land
+  in `library/raw/exam N/` → transcribed to `library/readable/exam-NN.md` with the
+  paper's marks per exercise and an **agent-worked answer key marked `[key]`** (the
+  paper prints no key; never let the key read as the book's text) → catalogued in
+  LIBRARY.md with authority "what the class tests on Units …". Exam-only rubric words
+  (imperatives, category labels) are flagged at ingest and never added to a unit's word
+  set. No practice-page shape has been set yet for exams — first one is a design question.
 - **Numbering**: lessons `0001…`; reading chapters, flashcard decks and topic
   chapters are separate categories with their own numbering (never in the lesson
   sequence).

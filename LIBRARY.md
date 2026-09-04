@@ -84,3 +84,31 @@
   prepositions in use** (عِنْدَ، بَعْدَ، بِـ "by", إِلى, the bare time ending) — the
   prepositions chapter's Unit 4 material is built from these lines
 - **Ingested:** 2026-09-02
+
+## exam 1/ (photo set)
+- **Title:** Al-Arabiyyah Bayna Yadayk, Book 1 — review test after Units 1–4 (the paper's
+  own title/number is not on the photos; "Exam 1" is the folder name); 2 pages, 40 marks
+- **Format:** PNG photos · library/raw/exam 1/1.png–2.png · readable:
+  library/readable/exam-01.md (full transcription + agent-worked answer key marked
+  `[key]` + drag-in flags)
+- **Covers:** Six exercises in three sections — vocabulary (thing → place matching, add two
+  words to a category, odd one out), structures & grammar (verb → complement matching,
+  choose the right form: plural after 3–10, كَمْ + ـاً, مَتى vs ماذا, السّاعَةَ, هِيَ), and a
+  third-person reading passage about أَحْمَد (Unit 4's dialogues retold) with seven
+  true/false items. Every content word is attested in Units 1–4. Drags in: the he-form
+  (يَـ) of the Unit 3–4 verbs (recognition only), dialogue → narrative retelling,
+  لِلصَّلاةِ "for the prayer", كَمْ حَمّاماً, grammar-category labels and the paper's rubric
+  imperatives (صِلْ، أَضِفْ، ضَعْ، أَكْمِلْ، اِقْرَأْ، أَجِبْ) — flagged in the transcription.
+- **Section map:**
+  - §p.1 — أَوَّلاً: المُفْرَدات (20 marks): 1 thing → place (6) · 2 add two words to seven
+    categories (7) · 3 odd one out, seven rows (7)
+  - §p.2 — ثانِياً: التَّراكيب والنَّحْو (13 marks): 1 join the two halves, eight verbs (8) ·
+    2 choose the right form from brackets, five items (5)
+  - §p.2 — ثالِثاً: القِراءَة (7 marks): the أَحْمَد paragraph + seven نَعَمْ / لا items
+- **Authority:** ⭐ §p.1–2 → **authoritative for: what the class tests on Units 1–4** — the
+  exercise types, the rubric wording and the marks weighting are the book's own; any
+  exam-practice page reproduces them rather than inventing formats. (Set at ingest; amend
+  if the user wants it narrower.)
+- **Slips flagged:** the passage prints يَوْمُ العُطْلَةِ / يَوْمُ الجُمُعَةِ with a ḍamma where
+  Unit 4 and the paper's own item 3 print the time adverb يَوْمَ with a fatḥa.
+- **Ingested:** 2026-09-04
