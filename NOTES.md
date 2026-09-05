@@ -16,6 +16,13 @@
   **master**) and report the pdfarhad.com URL once it answers.
   (The automatic paths — site repo secret `CF_DEPLOY_HOOK`, course repo workflow
   `notify-site.yml` + `SITE_DISPATCH_PAT` — are not configured as of 2026-08-30.)
+- **2026-09-05 — Readers' progress is saved in their browser.** User: "for outside
+  visitor of my site and avid reader who wants to save the progress of their learning,
+  make sure you save their progress on their client side aka browser. have a
+  localstorage mechanism for it." Every page carries `assets/progress.js` (wired by
+  `scripts/wire-progress.py`); one localStorage record per course, keyed by
+  `COURSE_MAP.id`. This is the convention for **every** public course on pdfarhad.com,
+  since they all share one origin. See learning record 0007.
 - **2026-08-23 — Grammar practice format.** User chose "Builder + MCQ mix": tap-to-order
   sentence builder (assets/builder.js) plus agreement MCQs in the quiz widget.
 - **2026-08-23 — No transliteration.** User reads and writes the script already. Lessons,
@@ -32,6 +39,21 @@
   word set per chapter, dictionary-check header), `knowledge/00NN-*.md`.
 - **Audio**: browser speechSynthesis, `lang="ar-SA"`, via `assets/audio.js`. Derived from
   the printed vocalised text; overrides only where print ≠ speech, noted per line.
+- **Saved progress** (2026-09-05): `assets/progress.js`, plain script, wired on every
+  page right after nav.js by `scripts/wire-progress.py` (idempotent; `--check`; run it
+  on every new page, alongside wire-theme.py). Keeps `learn:progress:<COURSE_MAP.id>`
+  in localStorage: per page id (`<body data-lesson>`) first/last visit, the last
+  session's tally (n / did / ok), best ok, and done. It only *reads* the widgets' DOM:
+  `data-result="ok|bad"` on `.build` (builder now stamps it; a reset keeps the miss
+  count), `.gap`, `.q`, `.match .from > li`, and `data-progress="known/total"` on the
+  flashcard `#deck` (known = words with a streak). Answers are not restored on reload —
+  scores and done are. Renders a status bar under `.meta` (tally · best · mark as done /
+  undo), on the index a summary + continue link + reset, ticks on the index list and in
+  the drawer. `COURSE_MAP.id` is required (no id → no progress) and must be unique
+  across the site's courses; the flashcard streaks live under
+  `learn:flashcards:<course>:<deck>` for the same reason. Gated by
+  `scripts/test-progress-page.html` and `test-progress-index.html` via
+  `sh scripts/test-widgets.sh` (which now runs every `scripts/test-*.html`).
 - **Public build**: `scripts/build-public.sh` → `docs/`, served by GitHub Pages
   (repo `pdfarhad/arabic-lessons`, site https://pdfarhad.github.io/arabic-lessons/,
   Pages source: main branch `/docs`). Rebuild docs/ and commit it whenever pages

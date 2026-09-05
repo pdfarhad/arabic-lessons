@@ -10,20 +10,35 @@
 // (tap to flip; 🔊 speaks the Arabic), self-rating (Again / Got it) driving a
 // lightweight two-box queue, progress meter, and a print-friendly word table
 // below the deck. "Again" cards return to the queue until rated "Got it".
-// Per-word streaks persist in localStorage (per-viewer convenience only; the
-// deck works fine when storage is unavailable).
+// Per-word streaks persist in localStorage under learn:flashcards:<course>:<deck>
+// (per-viewer convenience only; the deck works fine when storage is unavailable).
+// The deck root carries data-progress="known/total" — words with a streak over all
+// words — which assets/progress.js reads as the page's practice tally.
 
 (() => {
   const SET = window.VOCAB_SET;
   const root = document.getElementById("deck");
   if (!SET || !root) return;
 
-  const LS_KEY = "flashcards-" + SET.id;
+  // one origin serves every course, so the key carries the course id; the older
+  // un-namespaced key is read once and moved over
+  const OLD_KEY = "flashcards-" + SET.id;
+  const LS_KEY = window.COURSE_MAP?.id ? `learn:flashcards:${window.COURSE_MAP.id}:${SET.id}` : OLD_KEY;
   const store = (() => {
-    try { return JSON.parse(localStorage.getItem(LS_KEY)) || {}; }
-    catch { return {}; }
+    try {
+      let s = JSON.parse(localStorage.getItem(LS_KEY));
+      if (!s && LS_KEY !== OLD_KEY) {
+        s = JSON.parse(localStorage.getItem(OLD_KEY));
+        if (s) { localStorage.setItem(LS_KEY, JSON.stringify(s)); localStorage.removeItem(OLD_KEY); }
+      }
+      return s || {};
+    } catch { return {}; }
   })();
   const save = () => { try { localStorage.setItem(LS_KEY, JSON.stringify(store)); } catch {} };
+  const stampProgress = () => {
+    const known = SET.words.filter(w => (store[w.ar] || 0) > 0).length;
+    root.dataset.progress = `${known}/${SET.words.length}`;
+  };
 
   const cats = [...new Set(SET.words.map(w => w.cat))];
   let dir = "ar-en", cat = "all", queue = [], pos = 0, flipped = false, done = 0;
@@ -59,6 +74,7 @@
     c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
 
   function render() {
+    stampProgress();
     const total = done + queue.length;
     const w = queue[pos];
     root.innerHTML = `

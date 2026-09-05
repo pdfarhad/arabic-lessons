@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>progress harness — a page with practice</title>
+<!-- Driven by scripts/test-widgets.sh in headless Chrome over file://. Exercises
+     assets/progress.js on a page that carries practice: the page bar, the tally read
+     from data-result stamps, auto-done, undo, manual done, reset, cross-tab follow.
+     Widgets are not loaded — the harness stamps data-result itself, the way they do.
+     Results land in the #out pre as JSON. -->
+</head>
+<body data-lesson="tA">
+<main>
+<p class="kicker">Test</p>
+<h1>Page A</h1>
+<p class="lede">lede</p>
+<p class="meta">meta line</p>
+<h2>practice</h2>
+<div class="build" data-id="b1"><p class="task">t</p><p class="solution ar">x y</p></div>
+<div class="build" data-id="b0"><p class="task">no solution — not a builder</p></div>
+<div class="gap" data-id="g1"><p class="sentence ar">x ___ y</p><p class="options ar">a · b</p><p class="answer ar">a</p></div>
+<section class="quiz">
+  <div class="q" data-id="q1" data-type="mcq" data-answer="0"><p class="prompt">p</p><ol class="choices"><li>a</li><li>b</li></ol></div>
+  <div class="q" data-id="q2" data-type="recall"><p class="prompt">p</p><p class="answer">a</p></div>
+</section>
+<div class="match" data-id="m1"><div class="match-cols">
+  <ol class="from ar"><li data-key="أ">one</li><li data-key="ب">two</li></ol>
+  <ol class="to ar"><li data-key="أ">alif</li><li data-key="ب">ba</li></ol>
+</div><p class="answer ar">١ أ · ٢ ب</p></div>
+</main>
+<pre id="out"></pre>
+<script>
+window.COURSE_MAP = {
+  id: "test-course", title: "Test course", index: "index.html",
+  lessons: [{ n: 1, id: "tA", title: "Page A", path: "lessons/tA.html", min: 5 }],
+  groups: [{ label: "Readers", items: [{ n: 1, id: "tB", title: "Page B", path: "reading/tB.html", min: 5 }] }],
+};
+try { localStorage.removeItem("learn:progress:test-course"); } catch (e) {}
+</script>
+<script src="../assets/nav.js"></script>
+<script src="../assets/progress.js"></script>
+<script>
+(async () => {
+  const R = {};
+  const $ = s => document.querySelector(s);
+  const $$ = s => [...document.querySelectorAll(s)];
+  const tick = () => new Promise(r => setTimeout(r, 0));
+  const click = el => el && el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  const t = (name, fn) => { try { R[name] = fn() === true; } catch (e) { R[name] = String(e); } };
+  const stored = () => JSON.parse(localStorage.getItem("learn:progress:test-course") || "null");
+  const P = () => window.LearnProgress;
+
+  t("module exposes LearnProgress", () => !!P() && P().key === "learn:progress:test-course");
+  t("page bar sits right after the meta line", () =>
+    $(".lp-bar") && $(".lp-bar").previousElementSibling === $(".meta"));
+  t("visit is recorded with first and last", () =>
+    !!stored()?.pages?.tA?.first && stored().pages.tA.first === stored().pages.tA.last);
+  t("tally counts builders with a solution, gaps, quiz items, match items", () => {
+    const x = P().tally(document.querySelector("main"));
+    return x.n === 6 && x.did === 0 && x.ok === 0;
+  });
+  t("bar shows 0 / 6 to start", () => /0\s*\/\s*6/.test($(".lp-bar").textContent));
+  t("bar is not in the done state to start", () => !$(".lp-bar").classList.contains("done"));
+
+  // two first-try answers land in storage and on the bar
+  $('.gap[data-id="g1"]').dataset.result = "ok";
+  $('.q[data-id="q1"]').dataset.result = "ok";
+  await tick();
+  t("answered items are counted on the bar", () => /2\s*\/\s*6/.test($(".lp-bar").textContent));
+  t("answered items are stored as did / ok", () =>
+    stored().pages.tA.did === 2 && stored().pages.tA.ok === 2 && stored().pages.tA.n === 6);
+  t("fill width tracks the tally", () => /33/.test($(".lp-fill").style.width));
+
+  // the rest, one of them a miss → the page completes itself
+  $('.build[data-id="b1"]').dataset.result = "ok";
+  $('.q[data-id="q2"]').dataset.result = "bad";
+  $$('.match .from > li').forEach(li => { li.dataset.result = "ok"; });
+  await tick();
+  t("all answered → page auto-done", () =>
+    stored().pages.tA.done === true && stored().pages.tA.doneBy === "practice");
+  t("best keeps the first-try count", () => stored().pages.tA.best === 5);
+  t("bar shows the done state", () => $(".lp-bar").classList.contains("done"));
+  t("bar offers undo when done", () => /undo/i.test($(".lp-bar button").textContent));
+
+  // undo, then a further stamp must NOT re-mark within this session
+  click($(".lp-bar button"));
+  await tick();
+  t("undo clears done", () => stored().pages.tA.done === false);
+  $('.q[data-id="q2"]').dataset.result = "ok";
+  await tick();
+  t("after undo, more answers do not re-mark the page", () => stored().pages.tA.done === false);
+  t("best still rises after undo", () => stored().pages.tA.best === 6);
+
+  // manual mark
+  click($(".lp-bar button"));
+  await tick();
+  t("mark-done button marks by reader", () =>
+    stored().pages.tA.done === true && stored().pages.tA.doneBy === "reader");
+  t("done pages carry a doneAt stamp", () => typeof stored().pages.tA.doneAt === "string");
+
+  // the drawer wears the tick
+  t("nav drawer marks the done page", () =>
+    $('.cnav-drawer li[data-lp="done"] a[href$="lessons/tA.html"]') !== null);
+
+  // a deck reports its own progress through data-progress
+  t("deck data-progress feeds the tally", () => {
+    const d = document.createElement("div");
+    d.innerHTML = '<div id="deck" data-progress="3/10"></div>';
+    const x = P().tally(d);
+    return x.n === 10 && x.did === 3 && x.ok === 3;
+  });
+
+  // another tab changed the record → the bar follows
+  try {
+    const rec = stored(); rec.pages.tA.done = false; rec.pages.tA.doneBy = "reader";
+    localStorage.setItem("learn:progress:test-course", JSON.stringify(rec));
+    window.dispatchEvent(new StorageEvent("storage", { key: "learn:progress:test-course" }));
+  } catch (e) { R["cross-tab seed threw: " + e] = false; }
+  await tick();
+  t("storage event re-renders the bar", () => !$(".lp-bar").classList.contains("done"));
+
+  // storage off → the page still works, nothing thrown
+  t("reset clears the record", () => { P().reset(); return stored() === null; });
+
+  $("#out").textContent = JSON.stringify(R);
+})();
+</script>
+</body>
+</html>

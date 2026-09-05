@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>progress harness — a flashcard deck</title>
+<!-- Driven by scripts/test-widgets.sh in headless Chrome over file://. A page whose only
+     practice is the deck: the bar must speak of words known, not items practised, and
+     the deck's data-progress alone must be able to complete the page. -->
+</head>
+<body data-lesson="tD">
+<main>
+<h1>Deck</h1>
+<p class="meta">meta</p>
+<div id="deck"></div>
+</main>
+<pre id="out"></pre>
+<script>
+window.COURSE_MAP = { id: "test-course", lessons: [{ n: 1, id: "tD", title: "Deck", path: "vocab/tD.html" }] };
+window.VOCAB_SET = { id: "tD", words: [
+  { ar: "أ", gloss: "a", pos: "n", cat: "c" }, { ar: "ب", gloss: "b", pos: "n", cat: "c" } ] };
+try { localStorage.removeItem("learn:progress:test-course");
+      localStorage.removeItem("learn:flashcards:test-course:tD");
+      localStorage.removeItem("flashcards-tD"); } catch (e) {}
+</script>
+<script src="../assets/progress.js"></script>
+<script src="../assets/flashcards.js"></script>
+<script>
+(async () => {
+  const R = {};
+  const $ = s => document.querySelector(s);
+  const tick = () => new Promise(r => setTimeout(r, 0));
+  const click = el => el && el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  const t = (name, fn) => { try { R[name] = fn() === true; } catch (e) { R[name] = String(e); } };
+  const stored = () => JSON.parse(localStorage.getItem("learn:progress:test-course") || "null");
+
+  await tick();
+  t("deck-only page speaks of words known", () => /0\s*\/\s*2 words known/.test($(".lp-bar").textContent));
+  for (let i = 0; i < 2; i++) { click($("#fc-flip")); click($("#fc-good")); }
+  await tick();
+  t("every word known → page auto-done", () => stored().pages.tD.done === true && stored().pages.tD.doneBy === "practice");
+  t("bar counts the words", () => /2\s*\/\s*2 words known/.test($(".lp-bar").textContent));
+
+  $("#out").textContent = JSON.stringify(R);
+})();
+</script>
+</body>
+</html>

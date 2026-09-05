@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>progress harness — the index</title>
+<!-- Driven by scripts/test-widgets.sh in headless Chrome over file://. Exercises
+     assets/progress.js on the course index: the summary block, the continue link,
+     the per-page state on the course list and in the nav drawer, and reset. The record
+     is seeded here (a previous session's state) before progress.js loads. -->
+</head>
+<body data-lesson="index">
+<main>
+<p class="kicker">Test</p>
+<h1>Test course</h1>
+<p class="lede">lede</p>
+<h2><span class="no">1.</span> Lessons</h2>
+<ol class="course-list">
+  <li><span class="n">1</span><a href="lessons/tA.html">Page A</a><span class="min">5m</span></li>
+  <li><span class="n">2</span><a href="lessons/tC.html">Page C</a><span class="min">5m</span></li>
+</ol>
+<h2><span class="no">2.</span> Readers</h2>
+<ol class="course-list">
+  <li><span class="n">1</span><a href="reading/tB.html">Page B</a><span class="min">5m</span></li>
+</ol>
+</main>
+<pre id="out"></pre>
+<script>
+window.COURSE_MAP = {
+  id: "test-course", title: "Test course", index: "index.html",
+  lessons: [
+    { n: 1, id: "tA", title: "Page A", path: "lessons/tA.html", min: 5 },
+    { n: 2, id: "tC", title: "Page C", path: "lessons/tC.html", min: 5 },
+  ],
+  groups: [{ label: "Readers", items: [{ n: 1, id: "tB", title: "Page B", path: "reading/tB.html", min: 5 }] }],
+};
+localStorage.setItem("learn:progress:test-course", JSON.stringify({ v: 1, pages: {
+  tA: { first: "2026-09-01T10:00:00.000Z", last: "2026-09-01T10:20:00.000Z",
+        n: 6, did: 6, ok: 5, best: 5, done: true, doneBy: "practice", doneAt: "2026-09-01T10:20:00.000Z" },
+  tB: { first: "2026-09-02T10:00:00.000Z", last: "2026-09-02T10:05:00.000Z", n: 0, did: 0, ok: 0, best: 0, done: false },
+} }));
+</script>
+<script src="../assets/nav.js"></script>
+<script src="../assets/progress.js"></script>
+<script>
+(async () => {
+  const R = {};
+  const $ = s => document.querySelector(s);
+  const tick = () => new Promise(r => setTimeout(r, 0));
+  const click = el => el && el.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+  const t = (name, fn) => { try { R[name] = fn() === true; } catch (e) { R[name] = String(e); } };
+  const stored = () => JSON.parse(localStorage.getItem("learn:progress:test-course") || "null");
+  const li = href => $(`.course-list a[href="${href}"]`)?.closest("li");
+
+  t("index gets no page bar", () => $(".lp-bar") === null);
+  t("index visit is not recorded as a page", () => stored().pages.index === undefined);
+  t("summary sits right after the lede", () =>
+    $(".lp-summary") && $(".lp-summary").previousElementSibling === $(".lede"));
+  t("summary counts done pages", () => /1 of 3/.test($(".lp-summary").textContent));
+  t("continue points at the most recent unfinished page", () =>
+    /reading\/tB\.html$/.test($(".lp-continue").getAttribute("href")) && /Page B/.test($(".lp-continue").textContent));
+  t("done page is marked on the list", () => li("lessons/tA.html").dataset.lp === "done");
+  t("done page wears a tick", () => /✓/.test(li("lessons/tA.html").querySelector(".lp-tick").textContent));
+  t("visited page is marked started", () => li("reading/tB.html").dataset.lp === "started");
+  t("untouched page is marked new", () => li("lessons/tC.html").dataset.lp === "new");
+  t("done page shows its best score", () => /5\s*\/\s*6/.test(li("lessons/tA.html").querySelector(".lp-tick").title));
+  t("nav drawer marks the done page", () =>
+    $('.cnav-drawer li[data-lp="done"] a[href$="lessons/tA.html"]') !== null);
+  t("summary says progress is saved in this browser", () => /this browser/i.test($(".lp-summary").textContent));
+
+  // reset asks first; a refusal keeps the record
+  window.confirm = () => false;
+  click($(".lp-reset"));
+  await tick();
+  t("reset refused keeps the record", () => stored().pages.tA.done === true);
+  window.confirm = () => true;
+  click($(".lp-reset"));
+  await tick();
+  t("reset clears the record", () => stored() === null);
+  t("summary re-renders after reset", () => /0 of 3/.test($(".lp-summary").textContent));
+  t("list re-renders after reset", () => li("lessons/tA.html").dataset.lp === "new");
+  t("continue falls back to the first page in course order", () =>
+    /lessons\/tA\.html$/.test($(".lp-continue").getAttribute("href")));
+
+  $("#out").textContent = JSON.stringify(R);
+})();
+</script>
+</body>
+</html>

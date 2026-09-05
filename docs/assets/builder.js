@@ -13,7 +13,9 @@
 // (punctuation ignored), a correct build is spoken aloud, and after two misses
 // a reveal is offered. An element with id="build-score" on the page, if present,
 // shows "built / total" (a revealed answer counts as built — it is a progress
-// line, not a grade). Client-side only — works identically on the static site.
+// line, not a grade). Once built, the .build carries data-result="ok" (first try)
+// or "bad" (after a miss or a reveal) — read by assets/progress.js.
+// Client-side only — works identically on the static site.
 
 (() => {
   const strip = t => t.replace(/[.؟!،]/g, "");
@@ -40,7 +42,7 @@
     const dEl = box.querySelector(".distract");
     if (dEl) dEl.hidden = true;
 
-    let pool = [], picked = [], misses = 0, solved = false;
+    let pool = [], picked = [], misses = 0, solved = false;   // misses survive a reset
 
     const ui = document.createElement("div");
     ui.className = "build-ui";
@@ -52,7 +54,7 @@
         const j = Math.floor(Math.random() * (i + 1));
         [pool[i], pool[j]] = [pool[j], pool[i]];
       }
-      picked = []; misses = 0; solved = false;
+      picked = []; solved = false;
       render();
     }
 
@@ -92,19 +94,20 @@
       ui.querySelector(".build-check")?.addEventListener("click", check);
       ui.querySelector(".build-reset")?.addEventListener("click", reset);
       ui.querySelector(".build-reveal")?.addEventListener("click", () => {
-        solved = true; countOnce(); render();
+        solved = true; box.dataset.result = "bad"; countOnce(); render();
       });
       const say = ui.querySelector(".build-say");
-      say?.addEventListener("click", () => window.ArabicAudio.speak(solutionText, say));
+      say?.addEventListener("click", () => window.ArabicAudio?.speak(solutionText, say));
     }
 
     function check() {
       const got = picked.map(c => c.w);
       if (got.length === answer.length && got.every((w, k) => w === answer[k])) {
         solved = true;
+        box.dataset.result = misses === 0 ? "ok" : "bad";
         countOnce();
         render();
-        window.ArabicAudio.speak(solutionText);
+        window.ArabicAudio?.speak(solutionText);
       } else {
         misses++;
         const firstWrong = got.findIndex((w, k) => w !== answer[k]);

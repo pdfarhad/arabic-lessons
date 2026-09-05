@@ -32,7 +32,21 @@
   </div>
   <p class="answer ar">١ ج</p>
 </div>
+<!-- builders: one solved first try, one after a miss -->
+<div class="build" data-id="bA"><p class="task">t</p><p class="solution ar">x y</p></div>
+<div class="build" data-id="bB"><p class="task">t</p><p class="solution ar">p q</p></div>
+<!-- a two-card deck; the legacy streak key seeded below must migrate -->
+<div id="deck"></div>
 <pre id="out"></pre>
+<script>
+window.COURSE_MAP = { id: "test-course", lessons: [] };
+window.VOCAB_SET = { id: "tdeck", words: [
+  { ar: "أ", gloss: "a", pos: "n", cat: "c" }, { ar: "ب", gloss: "b", pos: "n", cat: "c" } ] };
+try { localStorage.removeItem("learn:flashcards:test-course:tdeck");
+      localStorage.setItem("flashcards-tdeck", JSON.stringify({ "ب": 2 })); } catch (e) {}
+</script>
+<script src="../assets/builder.js"></script>
+<script src="../assets/flashcards.js"></script>
 <script src="../assets/gapfill.js"></script>
 <script src="../assets/matching.js"></script>
 <script src="../assets/exam-score.js"></script>
@@ -43,6 +57,7 @@
   const $$ = s => [...document.querySelectorAll(s)];
   const from = $$('#exA .from > li'), to = $$('#exA .to > li');
   const click = el => el.dispatchEvent(new MouseEvent('click', { bubbles: true }));
+  try {
 
   R['answer line hidden once JS runs'] = $('#exA .match .answer').hidden === true;
   R['malformed match left untouched'] = !$('.match[data-id="mBad"]').classList.contains('match-js')
@@ -70,6 +85,28 @@
   click(chip);
   R['gap first-try stamps ok'] = $('#exA .gap').dataset.result === 'ok';
 
+  // builder: chips are shuffled, so pick them by text
+  const build = (id, words) => {
+    const box = $(`.build[data-id="${id}"]`);
+    words.forEach(w => click([...box.querySelectorAll('.build-pool .chip')].find(c => c.textContent === w)));
+    click(box.querySelector('.build-check'));
+    return box;
+  };
+  R['builder first-try stamps ok'] = build('bA', ['x', 'y']).dataset.result === 'ok';
+  R['builder miss stamps nothing yet'] = (build('bB', ['q', 'p']), !$('.build[data-id="bB"]').dataset.result);
+  click($('.build[data-id="bB"] .build-reset'));
+  R['builder solved after a miss stamps bad'] = build('bB', ['p', 'q']).dataset.result === 'bad';
+
+  // deck: data-progress = known words / all words, streaks under the namespaced key
+  const deck = $('#deck');
+  const streaks = () => JSON.parse(localStorage.getItem('learn:flashcards:test-course:tdeck') || 'null');
+  R['deck migrates the legacy streak key'] = streaks() && streaks()['ب'] === 2 && localStorage.getItem('flashcards-tdeck') === null;
+  R['deck reports known / total on load'] = deck.dataset.progress === '1/2';
+  for (let i = 0; i < 2; i++) { click($('#fc-flip')); click($('#fc-good')); }
+  R['deck progress reaches known = total once every card is got'] = deck.dataset.progress === '2/2';
+  R['deck streak is saved under the namespaced key'] = Object.values(streaks()).every(v => v >= 1);
+
+  } catch (e) { R['harness threw: ' + e] = false; }
   // tally renders after the observer's microtask
   setTimeout(() => {
     R['exercise marks = 2 / 3'] = $('#exA .marks').textContent === '2 / 3';

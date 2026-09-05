@@ -1,7 +1,10 @@
-// course-map.js — data for the nav drawer (assets/nav.js) and index.
+// course-map.js — data for the nav drawer (assets/nav.js), the index, and the
+// reader's saved progress (assets/progress.js).
 // Paths are workspace-root-relative. Update together with index.html whenever
-// a page is added or renamed.
+// a page is added or renamed. `id` namespaces this course's localStorage keys —
+// every course on pdfarhad.com shares one origin, so it must be unique per course.
 window.COURSE_MAP = {
+  id: "arabic",
   title: "Arabic — Bayna Yadayk Companion",
   subtitle: "ABY Book 1 · class companion · spoken-first",
   index: "index.html",
